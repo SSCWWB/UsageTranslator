@@ -109,4 +109,23 @@ public class TableValuesProcessorTest {
 		// 5000/5000 =1 so it should be 1
 		assertTrue(chargeableValues.get(1).contains("1"));
 	}
+
+	@Test
+	public void testProcessWithLongPartnerPurchasedPlanID() {
+		// test data with long partnerPurchasedPlanID
+		String longGuid = "ff633524c35f4de8acdaa7cdee38cd15ff633524c35f4de8acdaa7cdee38cd15"; // 64 characters
+		List<UsageRecord> records = new ArrayList<>();
+		records.add(
+				new UsageRecord(26668, "EA000001GB0O", 2000, longGuid, "E2016_Exch_1_HOSTWAY", "test.serverdata.net"));
+
+		Map<String, String> typeMap = new HashMap<>();
+		typeMap.put("EA000001GB0O", "core.test1");
+
+		Map<String, List<String>> result = TableValuesProcessor.process(records, typeMap, logger);
+
+		// check results
+		assertNotNull(result);
+		assertTrue(result.get("chargeable").isEmpty());
+		assertTrue(result.get("domain").isEmpty());
+	}
 }

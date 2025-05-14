@@ -29,6 +29,12 @@ public class TableValuesProcessor {
 			// strip any non-alphanumeric characters
 			String partnerPurchasedPlanID = r.getAccountGuid().replaceAll("[^A-Za-z0-9]", "");
 
+			// check if partnerPurchasedPlanID is longer than 32
+			if (partnerPurchasedPlanID.length() > 32) {
+				logger.warning("partnerPurchasedPlanID too long: " + partnerPurchasedPlanID);
+				continue;
+			}
+
 			if (!StringUtils.isBlank(domain)) {
 				String key = partnerPurchasedPlanID + "|" + domain;
 				if (!seen.contains(key)) {
@@ -78,7 +84,7 @@ public class TableValuesProcessor {
 			chargeableTablevalues.add(newValue);
 		}
 
-		// print out and log stats of running totals over ‘itemCount’ for each of the
+		// print out and log stats of running totals over 'itemCount' for each of the
 		// products in a success operation
 		for (Map.Entry<String, Long> p : totalProductCount.entrySet()) {
 			System.out.println("Product: " + p.getKey() + " total count is " + p.getValue());
