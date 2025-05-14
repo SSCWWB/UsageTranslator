@@ -4,13 +4,28 @@ import java.util.List;
 
 public class SqlGenerator {
 	public static String generateChargeableInsert(List<String> values) {
-		String joined = String.join(",\n", values);
-		return "INSERT INTO chargeable (partnerID, product, partnerPurchasedPlanID, plan, usage) VALUES\n" + joined
-				+ ";";
+		StringBuilder sql = new StringBuilder();
+		sql.append("INSERT INTO chargeable (partnerID, product, partnerPurchasedPlanID, plan, usage) VALUES\n");
+		for (int i = 0; i < values.size(); i++) {
+			sql.append(values.get(i));
+			if (i < values.size() - 1) {
+				sql.append(",\n");
+			}
+		}
+		sql.append(";");
+		return sql.toString();
 	}
 
 	public static String generateDomainInsert(List<String> values) {
-		String joined = String.join(",\n", values);
-		return "INSERT INTO domains (partnerPurchasedPlanID, domain) VALUES\n" + joined + ";";
+		StringBuilder sql = new StringBuilder();
+		sql.append("INSERT INTO domains (partnerPurchasedPlanID, domain) VALUES\n");
+		for (int i = 0; i < values.size(); i++) {
+			sql.append(values.get(i));
+			if (i < values.size() - 1) {
+				sql.append(",\n");
+			}
+		}
+		sql.append(";");
+		return sql.toString();
 	}
 }
