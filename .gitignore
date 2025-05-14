@@ -1,0 +1,8 @@
+.classpath
+.factorypath
+.project
+.settings/
+target/
+logs.text
+sql_insert_chargeable.text
+sql_insert_domains.text
