@@ -43,11 +43,11 @@ public class TableValuesProcessor {
 			// strip any non-alphanumeric characters
 			String partnerPurchasedPlanID = r.getAccountGuid().replaceAll("[^A-Za-z0-9]", "");
 
-			// check if partnerPurchasedPlanID longer than 32 after stripping.
+			// check if partnerPurchasedPlanID is not of length 32 after stripping.
 			// Although the sample CSV file does not contain such case, it's still good
 			// practice to add this check
-			if (partnerPurchasedPlanID.length() > 32) {
-				logger.warning("partnerPurchasedPlanID too long: " + partnerPurchasedPlanID);
+			if (partnerPurchasedPlanID.length() != 32) {
+				logger.warning("partnerPurchasedPlanID too long or too short: " + partnerPurchasedPlanID);
 				continue;
 			}
 
@@ -81,7 +81,10 @@ public class TableValuesProcessor {
 			// skip when partner id is in the configurable skip list
 			int partnerID = r.getPartnerID();
 			if (SKIP_PARTNERS.contains(partnerID))
+			{
+				logger.warning("partnerID in configurable skip list for record: " + r.toString());
 				continue;
+			}
 
 			// get product from PartNumber mapped from typemap.json
 			// if can't get product for the PartNumber then skip
@@ -107,8 +110,8 @@ public class TableValuesProcessor {
 		// products in a success operation
 		logger.info("=== Product Usage Statistics ===");
 		for (Map.Entry<String, Long> p : totalProductCount.entrySet()) {
-			System.out.println("Product: " + p.getKey() + " total count is " + p.getValue());
-			logger.info("Product: " + p.getKey() + " total count is " + p.getValue());
+			System.out.println("Product: " + p.getKey() + " total item count is " + p.getValue());
+			logger.info("Product: " + p.getKey() + " total item count is " + p.getValue());
 		}
 		logger.info("=== End of Statistics ===");
 		result.put("chargeable", chargeableTablevalues);

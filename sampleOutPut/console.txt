@@ -1,4 +1,3 @@
-
 ZhongYushi@Yushis-MacBook-Pro UsageTranslator % mvn clean compile exec:java
 [INFO] Scanning for projects...
 [INFO] 
@@ -20,23 +19,23 @@ ZhongYushi@Yushis-MacBook-Pro UsageTranslator % mvn clean compile exec:java
 [INFO] /Users/ZhongYushi/eclipse-workspace/UsageTranslator/src/main/java/com/yushiz/project/UsageTranslator/io/JsonTypeMapper.java: Recompile with -Xlint:unchecked for details.
 [INFO] 
 [INFO] --- exec:3.1.0:java (default-cli) @ UsageTranslator ---
-Product: core.chargeable.addowaspace total count is 210000
-Product: core.chargeable.sp10gb total count is 1
-Product: core.chargeable.encrymsg total count is 27
-Product: core.chargeable.encrygateway total count is 422
-Product: core.chargeable.archivemailbox total count is 707
-Product: core.chargeable.addbackupspace total count is 5000
-Product: core.chargeable.addpubfolder total count is 1
-Product: core.chargeable.addspspace total count is 29000
-Product: core.chargeable.activesync total count is 61
-Product: core.chargeable.advancemailsec total count is 11544
-Product: core.chargeable.exchange total count is 11480
-Product: core.chargeable.outlook total count is 200
-Product: core.chargeable.owa total count is 64
-Product: core.chargeable.sp1gb total count is 370
-Product: core.chargeable.resource total count is 21
-Product: core.chargeable.comdisclaimsvcs total count is 1
-Product: core.chargeable.sharesync2gbuser total count is 3
+Product: core.chargeable.addowaspace total item count is 210000
+Product: core.chargeable.sp10gb total item count is 1
+Product: core.chargeable.encrymsg total item count is 27
+Product: core.chargeable.encrygateway total item count is 422
+Product: core.chargeable.archivemailbox total item count is 707
+Product: core.chargeable.addbackupspace total item count is 5000
+Product: core.chargeable.addpubfolder total item count is 1
+Product: core.chargeable.addspspace total item count is 29000
+Product: core.chargeable.activesync total item count is 61
+Product: core.chargeable.advancemailsec total item count is 11544
+Product: core.chargeable.exchange total item count is 11480
+Product: core.chargeable.outlook total item count is 200
+Product: core.chargeable.owa total item count is 64
+Product: core.chargeable.sp1gb total item count is 370
+Product: core.chargeable.resource total item count is 21
+Product: core.chargeable.comdisclaimsvcs total item count is 1
+Product: core.chargeable.sharesync2gbuser total item count is 3
 INSERT INTO chargeable (partnerID, product, partnerPurchasedPlanID, plan, usage) VALUES
 (26668, 'core.chargeable.exchange', 'ff633524c35f4de8acdaa7cdee38cd15', 'E2016_Exch_1_HOSTWAY', 2),
 (26668, 'core.chargeable.advancemailsec', 'ff633524c35f4de8acdaa7cdee38cd15', 'E2016_Exch_1_HOSTWAY', 2),
@@ -7712,7 +7711,7 @@ Successfully wrote SQL statements to ./sql_insert_domains.txt
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  2.954 s
-[INFO] Finished at: 2025-05-14T13:48:14-07:00
+[INFO] Total time:  3.904 s
+[INFO] Finished at: 2025-05-14T19:38:14-07:00
 [INFO] ------------------------------------------------------------------------
 ZhongYushi@Yushis-MacBook-Pro UsageTranslator % 
