@@ -45,6 +45,19 @@
    - Right-click on the file
    - Select Run 'UsageTranslator.main()'
 
+### Option 3: Using Docker
+
+1. **Build the Docker image** (from the project root directory): Run:
+   `docker build -t usage-translator .`
+2. **Start an interactive shell inside the container:**
+   `docker run -it --entrypoint /bin/sh usage-translator`
+   - This opens a shell in the container at `/app`.
+3. **Run the application manually inside the container:**
+   `mvn exec:java -Dexec.mainClass=com.yushiz.project.UsageTranslator.UsageTranslator`
+   - Output files (`logs.txt`, `sql_insert_chargeable.txt`, `sql_insert_domains.txt`) will be generated in `/app` inside the container.
+
+
+
 ## Verification
 
 1. Console Output:
