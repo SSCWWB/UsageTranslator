@@ -55,18 +55,17 @@
 
 2. Alternative Output Check:
    If you prefer not to check the console output, I have also generated the following files at the project root level:
-   - `logs.txt`: Contains all application logs
-   - `sql_insert_chargeable.txt`: Contains SQL insert statements for chargeable data
-   - `sql_insert_domains.txt`: Contains SQL insert statements for domains data
+     `logs.txt`: Contains all application logs
+     `sql_insert_chargeable.txt`: Contains SQL insert statements for chargeable data
+     `sql_insert_domains.txt`: Contains SQL insert statements for domains data
+   - Each time you run the application, the following files will be overwritten:
+    `logs.txt`
+    `sql_insert_chargeable.txt`
+    `sql_insert_domains.txt`
 
 ## Important Notes
 
 - Ensure Java environment variables are properly configured
-- If running from IDE, make sure Lombok plugin is installed
-- Maven will automatically download required dependencies on first run
+- If running from IDE, make sure Lombok plugin is installed- Maven will automatically download required dependencies on first run
 - Generated files will be overwritten on each run
 - If you encounter any issues running the application, sample output files are available in the `sampleOutput` directory for reference
-- Each time you run the application, the following files will be overwritten:
-  - `logs.txt`
-  - `sql_insert_chargeable.txt`
-  - `sql_insert_domains.txt`

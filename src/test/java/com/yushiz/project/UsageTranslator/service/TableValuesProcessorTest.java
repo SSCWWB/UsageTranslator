@@ -33,10 +33,10 @@ public class TableValuesProcessorTest {
 		// check results
 		assertNotNull(result);
 		assertTrue(result.containsKey("chargeable"));
-		assertTrue(result.containsKey("domain"));
+		assertTrue(result.containsKey("domains"));
 
 		List<String> chargeableValues = result.get("chargeable");
-		List<String> domainValues = result.get("domain");
+		List<String> domainValues = result.get("domains");
 
 		// check chargeable table values
 		assertEquals(2, chargeableValues.size());
@@ -75,10 +75,10 @@ public class TableValuesProcessorTest {
 		// check results
 		assertNotNull(result);
 		assertTrue(result.containsKey("chargeable"));
-		assertTrue(result.containsKey("domain"));
+		assertTrue(result.containsKey("domains"));
 
 		List<String> chargeableValues = result.get("chargeable");
-		List<String> domainValues = result.get("domain");
+		List<String> domainValues = result.get("domains");
 
 		// all invalid records are skipped, the return list should be empty
 		assertEquals(0, chargeableValues.size());
@@ -110,6 +110,9 @@ public class TableValuesProcessorTest {
 		assertTrue(chargeableValues.get(1).contains("1"));
 	}
 
+	/**
+	 * Test data with long partnerPurchasedPlanID
+	 */
 	@Test
 	public void testProcessWithLongPartnerPurchasedPlanID() {
 		// test data with long partnerPurchasedPlanID
@@ -126,6 +129,6 @@ public class TableValuesProcessorTest {
 		// check results
 		assertNotNull(result);
 		assertTrue(result.get("chargeable").isEmpty());
-		assertTrue(result.get("domain").isEmpty());
+		assertTrue(result.get("domains").isEmpty());
 	}
 }

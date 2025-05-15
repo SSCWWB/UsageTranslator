@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * main class for this project
+ */
 public class UsageTranslator {
 	private static final Logger logger = Logger.getLogger(UsageTranslator.class.getName());
 	static {
@@ -41,24 +44,27 @@ public class UsageTranslator {
 		Map<String, String> typeMap = JsonTypeMapper.loadTypeMap(Paths.get(JSON_PATH));
 		List<UsageRecord> records = UsageFileReader.read(CSV_PATH, logger);
 
+
+		// process the csv files and extract insert values
+		Map<String, List<String>> values = TableValuesProcessor.process(records, typeMap, logger);
 		// get each insert sql value list
 		// the format is like a list of following :
 		// (26668, 'core.chargeable.exchange', 'ff633524c35f4de8acdaa7cdee38cd15',
 		// 'E2016_Exch_1_HOSTWAY', 2),
 		// (26668, 'core.chargeable.advancemailsec', 'ff633524c35f4de8acdaa7cdee38cd15',
 		// 'E2016_Exch_1_HOSTWAY', 2),
-		Map<String, List<String>> values = TableValuesProcessor.process(records, typeMap, logger);
 		List<String> chargeableValues = values.get("chargeable");
-		List<String> domainValues = values.get("domain");
+		List<String> domainValues = values.get("domains");
 
 		// Generate SQL statements
 		String insertChargeableSql = SqlGenerator.generateChargeableInsert(chargeableValues);
 		String insertDomainSql = SqlGenerator.generateDomainInsert(domainValues);
 
+		// print out insert sqls
 		System.out.println(insertChargeableSql);
 		System.out.println(insertDomainSql);
 
-		// write sql to txt files
+		// write chargeable table insert sql to txt files
 		try (FileWriter fileWriter = new FileWriter(CHARGE_SQL, false);
 				BufferedWriter writer = new BufferedWriter(fileWriter)) {
 			writer.write(insertChargeableSql);
@@ -67,6 +73,7 @@ public class UsageTranslator {
 			System.err.println("Error writing to file: " + e.getMessage());
 		}
 
+		// write domains table insert sql to txt files
 		try (FileWriter fileWriter2 = new FileWriter(DOMAIN_SQL, false);
 				BufferedWriter writer2 = new BufferedWriter(fileWriter2)) {
 			writer2.write(insertDomainSql);

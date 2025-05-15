@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.file.Path;
 import java.util.Map;
 
+/**
+ * This class maps json file to a Map
+ */
 public class JsonTypeMapper {
 	public static Map<String, String> loadTypeMap(Path jsonPath) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();

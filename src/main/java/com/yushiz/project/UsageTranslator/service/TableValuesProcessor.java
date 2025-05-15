@@ -7,10 +7,15 @@ import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * This class will process the list of records read from csv file
+ */
 public class TableValuesProcessor {
+	// unit reduction list
 	private static final Map<String, Integer> UNIT_REDUCTION = Map.of("EA000001GB0O", 1000, "PMQ00005GB0R", 5000,
 			"SSX006NR", 1000, "SPQ00001MB0R", 2000);
 
+	// partner id need to be skipped
 	private static final List<Integer> SKIP_PARTNERS = List.of(26392);
 
 	public static Map<String, List<String>> process(List<UsageRecord> records, Map<String, String> typeMap,
@@ -22,6 +27,8 @@ public class TableValuesProcessor {
 
 		Map<String, Long> totalProductCount = new HashMap<>();
 
+		// doing one loop for both domains and chargeable tables, first handle domains
+		// table then chargeable
 		for (UsageRecord r : records) {
 			// First handle records for domain table
 			String domain = r.getDomains().trim();
@@ -29,17 +36,21 @@ public class TableValuesProcessor {
 			// strip any non-alphanumeric characters
 			String partnerPurchasedPlanID = r.getAccountGuid().replaceAll("[^A-Za-z0-9]", "");
 
-			// check if partnerPurchasedPlanID is longer than 32
+			// check if partnerPurchasedPlanID longer than 32 after stripping.
+			// Although the sample CSV file does not contain such case, it's still good
+			// practice to add this check
 			if (partnerPurchasedPlanID.length() > 32) {
 				logger.warning("partnerPurchasedPlanID too long: " + partnerPurchasedPlanID);
 				continue;
 			}
 
+			// skip insert domains table if domain is empty
 			if (!StringUtils.isBlank(domain)) {
+				// ensure no duplicate domains are inserted
 				String key = partnerPurchasedPlanID + "|" + domain;
 				if (!seen.contains(key)) {
 					seen.add(key);
-					// prevent from injecting arbitrary SQL
+					// prevent from injecting arbitrary SQL by using escape
 					String value = String.format("('%s', '%s')", escape(partnerPurchasedPlanID), escape(domain));
 					domainTablevalues.add(value);
 				}
@@ -49,23 +60,24 @@ public class TableValuesProcessor {
 			String partNo = r.getPartNumber().trim();
 			// skip and log when PartNumber is empty
 			if (StringUtils.isBlank(partNo)) {
-				logger.severe("Missing PartNumber for record: " + r.toString());
+				logger.warning("Missing PartNumber for record: " + r.toString());
 				continue;
 			}
 
 			// skip and log when itemCount is not positive
 			int itemCount = r.getItemCount();
 			if (itemCount <= 0) {
-				logger.severe("Non positive itemCount for record: " + r.toString());
+				logger.warning("Non positive itemCount for record: " + r.toString());
 				continue;
 			}
 
-			// skip when partner id is in the configurable list
+			// skip when partner id is in the configurable skip list
 			int partnerID = r.getPartnerID();
 			if (SKIP_PARTNERS.contains(partnerID))
 				continue;
 
 			// get product from PartNumber mapped from typemap.json
+			// if can't get product for the PartNumber then skip
 			String product = typeMap.get(partNo);
 			if (product == null) {
 				logger.info("No mapping for PartNumber= " + r.getPartNumber());
@@ -86,12 +98,14 @@ public class TableValuesProcessor {
 
 		// print out and log stats of running totals over 'itemCount' for each of the
 		// products in a success operation
+		logger.info("=== Product Usage Statistics ===");
 		for (Map.Entry<String, Long> p : totalProductCount.entrySet()) {
 			System.out.println("Product: " + p.getKey() + " total count is " + p.getValue());
 			logger.info("Product: " + p.getKey() + " total count is " + p.getValue());
 		}
+		logger.info("=== End of Statistics ===");
 		result.put("chargeable", chargeableTablevalues);
-		result.put("domain", domainTablevalues);
+		result.put("domains", domainTablevalues);
 
 		return result;
 	}

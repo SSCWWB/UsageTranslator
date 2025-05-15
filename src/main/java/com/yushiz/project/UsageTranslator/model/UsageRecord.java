@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * This class maps data from a CSV file. I omitted some columns since they are
+ * not used in this project
+ */
 @Getter
 @Setter
 @ToString

@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * This class read csv files and store in a list
+ */
 public class UsageFileReader {
 
 	public static List<UsageRecord> read(String csvPath, Logger logger) throws Exception {
