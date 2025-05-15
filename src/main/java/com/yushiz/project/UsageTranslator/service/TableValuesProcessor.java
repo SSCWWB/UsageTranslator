@@ -12,11 +12,18 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class TableValuesProcessor {
 	// unit reduction list
-	private static final Map<String, Integer> UNIT_REDUCTION = Map.of("EA000001GB0O", 1000, "PMQ00005GB0R", 5000,
-			"SSX006NR", 1000, "SPQ00001MB0R", 2000);
+	private static final Map<String, Integer> UNIT_REDUCTION;
+	static {
+		Map<String, Integer> m = new HashMap<>();
+		m.put("EA000001GB0O", 1000);
+		m.put("PMQ00005GB0R", 5000);
+		m.put("SSX006NR", 1000);
+		m.put("SPQ00001MB0R", 2000);
+		UNIT_REDUCTION = Collections.unmodifiableMap(m);
+	}
 
 	// partner id need to be skipped
-	private static final List<Integer> SKIP_PARTNERS = List.of(26392);
+	private static final List<Integer> SKIP_PARTNERS = Collections.unmodifiableList(Arrays.asList(26392));
 
 	public static Map<String, List<String>> process(List<UsageRecord> records, Map<String, String> typeMap,
 			Logger logger) {
